@@ -19,7 +19,7 @@ case class ResultCursorImpl(private val result: Result) extends org.neo4j.driver
 
   override def singleAsync(): CompletionStage[Record] = CompletableFuture.completedFuture(result.single())
 
-  override def forEachAsync(action: Consumer[Record]): CompletionStage[ResultSummary] = ???
+  override def forEachAsync(action: Consumer[Record]): CompletionStage[ResultSummary] = ???//TODO support
 
   override def listAsync(): CompletionStage[util.List[Record]] = CompletableFuture.completedFuture(result.list())
 

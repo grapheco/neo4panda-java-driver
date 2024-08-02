@@ -1,1 +1,1 @@
-# neo4pandadb-java-driver
+# neo4panda-java-driver

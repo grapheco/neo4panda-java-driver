@@ -36,6 +36,9 @@ object TypeConverter {
   def unwrapLynxValue(origin: LynxValue): Any = origin match {
     case l: LynxList => l.value.map(unwrapLynxValue)
     case m: LynxMap => m.value.mapValues(unwrapLynxValue)
+    case n: LynxNode => lynxNode2NeoNode(n)
+    case r: LynxRelationship => lynxRelationship2NeoRelationship(r)
+    case p: LynxPath => lynxPath2NeoPath(p)
 //      case p: Geographic2D => Values.ofPoint(org.neo4j.values.storable.CoordinateReferenceSystem.WGS84, p.x.value, p.y.value)
 //      case p: Geographic3D => Values.pointValue(org.neo4j.values.storable.CoordinateReferenceSystem.WGS84_3D, p.x.value, p.y.value, p.z.value)
 //      case p: Cartesian2D => Values.pointValue(org.neo4j.values.storable.CoordinateReferenceSystem.Cartesian, p.x.value, p.y.value)

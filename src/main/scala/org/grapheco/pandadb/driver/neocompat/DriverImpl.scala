@@ -20,13 +20,16 @@ case class DriverImpl(private val delegate: PandaDBDriver) extends Driver{
 
   override def rxSession(sessionConfig: SessionConfig): RxSession = ???
 
-  override def asyncSession(): AsyncSession = ???
+  override def asyncSession(): AsyncSession = AsyncSessionImpl(SessionImpl(delegate))
 
-  override def asyncSession(sessionConfig: SessionConfig): AsyncSession = ???
+  override def asyncSession(sessionConfig: SessionConfig): AsyncSession = AsyncSessionImpl(SessionImpl(delegate))
 
   override def close(): Unit = delegate.shutdown()
 
-  override def closeAsync(): CompletionStage[Void] = ???
+  override def closeAsync(): CompletionStage[Void] = CompletableFuture.completedFuture({
+    delegate.shutdown()
+    null
+  })
 
   override def metrics(): Metrics = ???
 

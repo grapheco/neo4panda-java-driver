@@ -59,6 +59,7 @@ case class ResultImpl(private val delegate: LynxResult) extends Result {
    * @throws NoSuchRecordException if there is no record left in the stream
    */
   override def next: Record = {
+    peek()
     if (_prefetchedRecord != null) {
       val ret = _prefetchedRecord
       _prefetchedRecord = null

@@ -4,11 +4,13 @@ import org.neo4j.driver._
 
 import java.util
 import org.grapheco.pandadb.client.{Transaction => PandaTx}
+import org.grapheco.pandadb.util.Logging
+import org.grapheco.lynx.LynxResult
 import org.neo4j.driver.exceptions.ClientException
 
 import scala.collection.JavaConverters._
 
-case class TransactionImpl(private val delegate: PandaTx) extends Transaction {
+case class TransactionImpl(private val delegate: PandaTx) extends Transaction with Logging {
 
   private var txState = TxState.STARTED
 
@@ -24,7 +26,10 @@ case class TransactionImpl(private val delegate: PandaTx) extends Transaction {
   }
 
   override def close(): Unit = {
-    if (txState != TxState.Committed) rollback()
+    if (txState != TxState.Committed) {
+      rollback()
+      delegate.close()
+    }
     txState = TxState.Closed
     //TODO do we need manually call rollback???
   }
@@ -41,15 +46,18 @@ case class TransactionImpl(private val delegate: PandaTx) extends Transaction {
 
   override def run(query: String): Result = {
     checkState()
-    val lr = delegate.executeQuery(query)
+    var lr: LynxResult = null
+    try {
+      lr = delegate.executeQuery(query)
+    } catch {
+      case e: Exception => throw e
+    } finally {
+      close()
+    }
     ResultImpl(lr)
   }
 
-  override def run(query: Query): Result = {
-    checkState()
-    val lr = delegate.executeQuery(query.text())
-    ResultImpl(lr)
-  }
+  override def run(query: Query): Result = run(query.text(), query.parameters())
 
   override def isOpen = txState != TxState.Closed
 
