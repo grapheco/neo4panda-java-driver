@@ -12,7 +12,7 @@ case class DriverImpl(private val delegate: PandaDBDriver) extends Driver{
 
   override def isEncrypted: Boolean = false
 
-  override def session(): Session = SessionImpl(delegate)
+  override def session(): Session = SessionImpl(delegate.session())
 
   override def session(sessionConfig: SessionConfig): Session = session()
 
@@ -20,9 +20,9 @@ case class DriverImpl(private val delegate: PandaDBDriver) extends Driver{
 
   override def rxSession(sessionConfig: SessionConfig): RxSession = ???
 
-  override def asyncSession(): AsyncSession = AsyncSessionImpl(SessionImpl(delegate))
+  override def asyncSession(): AsyncSession = AsyncSessionImpl(SessionImpl(delegate.session()))
 
-  override def asyncSession(sessionConfig: SessionConfig): AsyncSession = AsyncSessionImpl(SessionImpl(delegate))
+  override def asyncSession(sessionConfig: SessionConfig): AsyncSession = AsyncSessionImpl(SessionImpl(delegate.session()))
 
   override def close(): Unit = delegate.shutdown()
 

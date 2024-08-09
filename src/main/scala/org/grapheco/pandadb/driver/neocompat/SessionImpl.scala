@@ -2,16 +2,16 @@ package org.grapheco.pandadb.driver.neocompat
 import org.neo4j.driver.{Bookmark, Query, Record, Result, Session, Transaction, TransactionConfig, TransactionWork, Value}
 
 import scala.collection.JavaConverters._
-import org.grapheco.pandadb.client.PandaDBDriver
+import org.grapheco.pandadb.client.{Session => PSession}
 import org.grapheco.pandadb.util.Logging
 
 import java.util
 
-case class SessionImpl(private val driver: PandaDBDriver) extends Session  with Logging { //TODO use real session
+case class SessionImpl(private val delegate: PSession) extends Session  with Logging {
 
   private var _isOpen = true
 
-  override def beginTransaction(): Transaction = TransactionImpl(driver.beginTransaction())
+  override def beginTransaction(): Transaction = TransactionImpl(delegate.beginTransaction())
 
   override def beginTransaction(config: TransactionConfig): Transaction = beginTransaction
 
@@ -35,27 +35,30 @@ case class SessionImpl(private val driver: PandaDBDriver) extends Session  with 
 
   override def writeTransaction[T](work: TransactionWork[T], config: TransactionConfig): T = readTransaction[T](work)
 
-  override def run(query: String, config: TransactionConfig): Result = ResultImpl(driver.query(query))
+  override def run(query: String, config: TransactionConfig): Result = ResultImpl(delegate.run(query))
 
-  override def run(query: String, parameters: util.Map[String, AnyRef], config: TransactionConfig): Result = ResultImpl(driver.query(query, parameters.asScala.toMap))
+  override def run(query: String, parameters: util.Map[String, AnyRef], config: TransactionConfig): Result = ResultImpl(delegate.run(query, parameters.asScala.toMap))
 
-  override def run(query: Query, config: TransactionConfig): Result = ResultImpl(driver.query(query.text(), query.parameters().asMap().asScala.toMap))
+  override def run(query: Query, config: TransactionConfig): Result = ResultImpl(delegate.run(query.text(), query.parameters().asMap().asScala.toMap))
 
   override def lastBookmark(): Bookmark = ???
 
   override def reset(): Unit = ???
 
-  override def close(): Unit = {_isOpen = false}
+  override def close(): Unit = {
+    _isOpen = false
+    delegate.close()
+  }
 
-  override def run(query: String, parameters: Value): Result = ResultImpl(driver.query(query, parameters.asMap().asScala.toMap))
+  override def run(query: String, parameters: Value): Result = ResultImpl(delegate.run(query, parameters.asMap().asScala.toMap))
 
-  override def run(query: String, parameters: util.Map[String, AnyRef]): Result = ResultImpl(driver.query(query, parameters.asScala.toMap))
+  override def run(query: String, parameters: util.Map[String, AnyRef]): Result = ResultImpl(delegate.run(query, parameters.asScala.toMap))
 
-  override def run(query: String, parameters: Record): Result = ResultImpl(driver.query(query, parameters.asMap().asScala.toMap))
+  override def run(query: String, parameters: Record): Result = ResultImpl(delegate.run(query, parameters.asMap().asScala.toMap))
 
-  override def run(query: String): Result = ResultImpl(driver.query(query))
+  override def run(query: String): Result = ResultImpl(delegate.run(query))
 
-  override def run(query: Query): Result = ResultImpl(driver.query(query.text(), query.parameters().asMap().asScala.toMap))
+  override def run(query: Query): Result = ResultImpl(delegate.run(query.text(), query.parameters().asMap().asScala.toMap))
 
   override def isOpen: Boolean = _isOpen
 }

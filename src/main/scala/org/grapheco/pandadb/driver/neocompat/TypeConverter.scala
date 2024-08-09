@@ -5,8 +5,6 @@ import org.grapheco.lynx.types.composite.{LynxList, LynxMap}
 import org.grapheco.lynx.types.property.{LynxFloat, LynxNull}
 import org.grapheco.lynx.types.spatial.{Cartesian2D, Cartesian3D, Geographic2D, Geographic3D}
 import org.grapheco.lynx.types.structural.{LynxElement, LynxNode, LynxPath, LynxRelationship}
-import org.grapheco.pandadb.facade.Direction.Direction
-import org.grapheco.pandadb.facade.{Direction, PandaTransaction}
 import org.neo4j.driver.exceptions.DatabaseException
 import org.neo4j.driver.internal.{InternalPath, InternalRelationship}
 import org.neo4j.driver.{Value, Values}
