@@ -12,7 +12,7 @@
 
     <groupId>org.grapheco.pandadb</groupId>
     <artifactId>neo4panda-java-driver</artifactId>
-    <version>0.5.0-rc</version>
+    <version>0.5.0-rc2</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>org.grapheco</groupId>
             <artifactId>pandadb-java-driver</artifactId>
-            <version>0.5.0-rc</version>
+            <version>0.5.0-rc2</version>
         </dependency>
         <dependency>
             <groupId>org.neo4j.driver</groupId>
