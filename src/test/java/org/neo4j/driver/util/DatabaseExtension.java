@@ -36,7 +36,7 @@ import static org.neo4j.driver.util.Neo4jSettings.BoltTlsLevel.OPTIONAL;
 public class DatabaseExtension implements ExecutionCondition, BeforeEachCallback, AfterEachCallback, AfterAllCallback {
 
     private static final DatabaseExtension instance;
-    private static final URI pandaUri = URI.create("bolt://localhost:7600");
+    private static final URI pandaUri = URI.create("bolt://localhost:7700");
     private static final AuthToken authToken;
 
     private static final Map<String, String> defaultConfig;

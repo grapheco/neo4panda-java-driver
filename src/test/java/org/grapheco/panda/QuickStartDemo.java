@@ -50,7 +50,7 @@ public class QuickStartDemo implements AutoCloseable {
     }
 
     public static void main(String... args) throws Exception {
-        try (QuickStartDemo greeter = new QuickStartDemo("bolt://localhost:7600", "neo4j", "password")) {
+        try (QuickStartDemo greeter = new QuickStartDemo("bolt://localhost:7700", "neo4j", "password")) {
             greeter.printGreeting("hello, world");
         }
     }
