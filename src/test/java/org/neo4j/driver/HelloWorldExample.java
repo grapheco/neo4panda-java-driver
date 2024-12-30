@@ -49,7 +49,7 @@ public class HelloWorldExample implements AutoCloseable {
     }
 
     public static void main(String... args) throws Exception {
-        try (HelloWorldExample greeter = new HelloWorldExample("bolt://localhost:7600", "neo4j", "password")) {
+        try (HelloWorldExample greeter = new HelloWorldExample("bolt://localhost:7700", "pandda", "panda")) {
             greeter.printGreeting("hello, world");
         }
     }

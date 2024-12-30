@@ -1,10 +1,6 @@
 package org.grapheco.panda;
 
-import org.neo4j.driver.AuthTokens;
-import org.neo4j.driver.GraphDatabase;
-import org.neo4j.driver.Driver;
-import org.neo4j.driver.Session;
-import org.neo4j.driver.Result;
+import org.neo4j.driver.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +37,7 @@ public class QuickStartDemo implements AutoCloseable {
                 params.put("person2_name", "David");
                 params.put("knows_from", "School");
                 Result result2 = tx.run(createFriendshipQuery, params);
-                var r = result2.single();
+                Record r = result2.single();
                 System.out.println(r.get(0));
                 return result.single().get(0).asString();
             });
@@ -50,7 +46,7 @@ public class QuickStartDemo implements AutoCloseable {
     }
 
     public static void main(String... args) throws Exception {
-        try (QuickStartDemo greeter = new QuickStartDemo("bolt://localhost:7700", "neo4j", "password")) {
+        try (QuickStartDemo greeter = new QuickStartDemo("bolt://localhost:7700", "panda", "panda")) {
             greeter.printGreeting("hello, world");
         }
     }

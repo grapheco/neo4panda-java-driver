@@ -19,9 +19,13 @@
 package org.neo4j.driver;
 
 import java.net.URI;
+import java.util.Map;
 
 import org.grapheco.pandadb.driver.neocompat.DriverImpl;
 import org.grapheco.pandadb.client.PandaDBDriver;
+import org.neo4j.driver.internal.security.InternalAuthToken;
+
+import static org.neo4j.driver.internal.security.InternalAuthToken.*;
 
 /**
  * Creates {@link Driver drivers}, optionally letting you {@link #driver(URI, Config)} to configure them.
@@ -114,7 +118,9 @@ public class GraphDatabase {
      * @return a new driver to the database instance specified by the URL
      */
     public static Driver driver(URI uri, AuthToken authToken, Config config) {
-        var pd = new PandaDBDriver(uri.getHost(), uri.getPort());
+        Map<String, Value> userInfo = ((InternalAuthToken)authToken).toMap();
+        assert (userInfo.get(SCHEME_KEY).asString().equals("basic"));
+        PandaDBDriver pd = new PandaDBDriver(uri.getHost(), uri.getPort(), userInfo.get(PRINCIPAL_KEY).asString(), userInfo.get(CREDENTIALS_KEY).asString());
         return new DriverImpl(pd);
     }
 }
