@@ -16,13 +16,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.neo4j.driver;
+package org.grapheco.pandadb.driver;
 
 import java.net.URI;
 import java.util.Map;
 
 import org.grapheco.pandadb.driver.neocompat.DriverImpl;
 import org.grapheco.pandadb.client.PandaDBDriver;
+import org.neo4j.driver.*;
 import org.neo4j.driver.internal.security.InternalAuthToken;
 
 import static org.neo4j.driver.internal.security.InternalAuthToken.*;

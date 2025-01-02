@@ -1,6 +1,7 @@
 package org.grapheco.panda;
 
 import org.neo4j.driver.*;
+import org.grapheco.pandadb.driver.GraphDatabase;
 
 import java.util.HashMap;
 import java.util.Map;

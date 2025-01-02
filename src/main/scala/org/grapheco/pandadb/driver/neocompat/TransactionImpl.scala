@@ -28,8 +28,8 @@ case class TransactionImpl(private val delegate: PandaTx) extends Transaction wi
   override def close(): Unit = {
     if (txState != TxState.Committed) {
       rollback()
-      delegate.close()
     }
+    delegate.close()
     txState = TxState.Closed
     //TODO do we need manually call rollback???
   }
@@ -51,9 +51,10 @@ case class TransactionImpl(private val delegate: PandaTx) extends Transaction wi
       lr = delegate.executeQuery(query)
     } catch {
       case e: Exception => throw e
-    } finally {
-      close()
     }
+//    finally {
+//      close()
+//    }
     ResultImpl(lr)
   }
 

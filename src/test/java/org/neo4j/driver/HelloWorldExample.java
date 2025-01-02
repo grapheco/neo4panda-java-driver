@@ -20,6 +20,8 @@ package org.neo4j.driver;
 
 // tag::hello-world-import[]
 
+import org.grapheco.pandadb.driver.GraphDatabase;
+
 import static org.neo4j.driver.Values.parameters;
 
 // tag::hello-world[]
